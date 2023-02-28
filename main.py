@@ -17,10 +17,12 @@ import smtplib
 import imghdr
 from email.message import EmailMessage
 
-import frame
-import player
-import scoreboard
-import teams
+from processing import frame
+from processing import player
+from processing import scoreboard
+from processing import teams
+
+
 
 if __name__ == "__main__":
 

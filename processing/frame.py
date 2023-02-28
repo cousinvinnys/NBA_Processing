@@ -1,5 +1,4 @@
 from nba_api.stats.endpoints import teamgamelog, boxscoretraditionalv2 as box_score, boxscoresummaryv2 as team_scoring
-import frame
 import numpy as np
 
 
@@ -36,7 +35,7 @@ def process_team_summary_score(gameID):
 
     # Clean unwanted columns
     dropped_columns = ['GAME_DATE_EST', 'GAME_SEQUENCE', 'GAME_ID', 'TEAM_ID', 'TEAM_CITY_NAME', 'TEAM_NICKNAME', 'TEAM_WINS_LOSSES']
-    df = frame.drop_columns(dropped_columns, df)
+    df = drop_columns(dropped_columns, df)
 
     # Formatting, renaming
     df = df.loc[:, (df != 0).any(axis=0)]
@@ -51,7 +50,7 @@ def process_team_box_score(gameID):
     df = team_scoring.BoxScoreSummaryV2(game_id=gameID).get_data_frames()[1]
 
     dropped_columns = ['GAME_ID', 'TEAM_ID', 'TEAM_CITY', 'MIN', 'PF', 'PLUS_MINUS', 'TEAM_ABBREVIATION', 'FG_PCT', 'FG3_PCT', 'FT_PCT']
-    df = frame.drop_columns(dropped_columns, df)
+    df = drop_columns(dropped_columns, df)
     df.rename(columns={'TEAM_NAME': 'TEAM'}, inplace=True)
 
     return df
@@ -62,8 +61,8 @@ def process_player_detail_box_score(gameID, abbreviation, showAll):
 
     dropped_columns = ['COMMENT', 'NICKNAME', 'TEAM_CITY', 'START_POSITION', 'GAME_ID', 'PLAYER_ID',
                     'TEAM_ID', 'PLUS_MINUS', 'OREB', 'DREB', 'FT_PCT', 'FG3_PCT', 'FG_PCT', 'PF']
-    df = frame.drop_columns(dropped_columns, df)
-    df = frame.clean_df(df)
+    df = drop_columns(dropped_columns, df)
+    df = clean_df(df)
     cleaned_columns = ['PTS', 'TO', 'BLK', 'STL', 'AST', 'REB', 'FTA', 'FTM', 'FG3A', 'FG3M', 'FGA', 'FGM']
     df = convert_column_to_int(cleaned_columns, df)
 
